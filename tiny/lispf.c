@@ -33,24 +33,15 @@
 #include <stdlib.h>
 #include <string.h>
 
-#ifdef __LP64__
-typedef uint64_t value_t;
-#else
-typedef uint32_t value_t;
-#endif
-
 #ifdef FLOAT
 #define NUM_FORMAT "%f"
 typedef float number_t;
 #else
-#ifdef __LP64__
-#define NUM_FORMAT "%" PRId64
-typedef int64_t number_t;
-#else
-#define NUM_FORMAT "%" PRId32
-typedef int32_t number_t;
+#define NUM_FORMAT "%" PRIdPTR
+typedef intptr_t number_t;
 #endif
-#endif
+
+typedef uintptr_t value_t;
 
 typedef struct {
     value_t car;
