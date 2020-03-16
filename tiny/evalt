@@ -4,7 +4,7 @@ value_t eval_sexpr(value_t e, value_t *penv)
     value_t *rest;
     cons_t *c;
     symbol_t *sym;
-    u_int32_t saveSP;
+    uint32_t saveSP;
     int i, nargs, noeval=0;
     number_t s, n;
 
