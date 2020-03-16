@@ -1,6 +1,6 @@
-u_int32_t *bitvector_resize(u_int32_t *b, size_t n)
+uint32_t *bitvector_resize(uint32_t *b, size_t n)
 {
-    u_int32_t *p;
+    uint32_t *p;
     size_t sz = ((n+31)>>5) * 4;
     p = realloc(b, sz);
     if (p == NULL) return NULL;
@@ -8,12 +8,12 @@ u_int32_t *bitvector_resize(u_int32_t *b, size_t n)
     return p;
 }
 
-u_int32_t *mk_bitvector(size_t n)
+uint32_t *mk_bitvector(size_t n)
 {
     return bitvector_resize(NULL, n);
 }
 
-void bitvector_set(u_int32_t *b, u_int32_t n, u_int32_t c)
+void bitvector_set(uint32_t *b, uint32_t n, uint32_t c)
 {
     if (c)
         b[n>>5] |= (1<<(n&31));
@@ -21,7 +21,7 @@ void bitvector_set(u_int32_t *b, u_int32_t n, u_int32_t c)
         b[n>>5] &= ~(1<<(n&31));
 }
 
-u_int32_t bitvector_get(u_int32_t *b, u_int32_t n)
+uint32_t bitvector_get(uint32_t *b, uint32_t n)
 {
     return b[n>>5] & (1<<(n&31));
 }
@@ -73,7 +73,7 @@ void ltable_adjoin(ltable_t *t, unsigned long item)
         ltable_insert(t, item);
 }
 
-static const u_int32_t offsetsFromUTF8[6] = {
+static const uint32_t offsetsFromUTF8[6] = {
     0x00000000UL, 0x00003080UL, 0x000E2080UL,
     0x03C82080UL, 0xFA082080UL, 0x82082080UL
 };
@@ -94,24 +94,24 @@ int u8_seqlen(const char c)
     return trailingBytesForUTF8[(unsigned int)(unsigned char)c] + 1;
 }
 
-#define UEOF ((u_int32_t)EOF)
+#define UEOF ((uint32_t)EOF)
 
-u_int32_t u8_fgetc(FILE *f)
+uint32_t u8_fgetc(FILE *f)
 {
     int amt=0, sz, c;
-    u_int32_t ch=0;
+    uint32_t ch=0;
 
     c = fgetc(f);
     if (c == EOF)
         return UEOF;
-    ch = (u_int32_t)c;
+    ch = (uint32_t)c;
     amt = sz = u8_seqlen(ch);
     while (--amt) {
         ch <<= 6;
         c = fgetc(f);
         if (c == EOF)
             return UEOF;
-        ch += (u_int32_t)c;
+        ch += (uint32_t)c;
     }
     ch -= offsetsFromUTF8[sz-1];
 
